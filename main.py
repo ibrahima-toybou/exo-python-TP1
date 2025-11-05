@@ -1,17 +1,55 @@
-nom_boutique  = str("ChossettZ")
-produit : str = "Chaussures"
-prix_unitaire = float (5.99)
-quantite_stock : int = 20
-tva : float = 0.20
-compte_client  = float(100)
-compte_boutique : float = 0
+from fonctions import calcul_ht, calcul_ttc, arrondir, afficher_facture
 
-print(f"La boutique {nom_boutique} vend des {produit} au prix de {prix_unitaire}€ "
-      f"l'unité (TVA : {tva*100}%). Il reste {quantite_stock} articles en stock. "
-      f"Le compte du client est de {compte_client}€ et celui de la boutique est de {compte_boutique}€.")
+# Variables
+nom_boutique = "ChossettZ"
+produit = "chaussettes"
+prix_unitaire = 5.99
+quantite_stock = 20
+tva = 0.20
+compte_client = 100
+compte_boutique = 0
 
-prix_ht = round(prix_unitaire, 2)
-prix_ttc = round(prix_ht * (1 + tva), 2)
-print(f"Le prix hors taxe est de {prix_ht}€ et le prix toutes taxes comprises est de {prix_ttc}€.")
+def main():
+    global quantite_stock, compte_client, compte_boutique
 
-nb_paires = int(input("Combien de paires de chaussures souhaitez-vous acheter ? "))
+    print(f"Bienvenue chez {nom_boutique} !")
+    print(f"Stock disponible : {quantite_stock} chaussettes, prix : {prix_unitaire}€")
+    print(f"Votre compte : {compte_client}€")
+
+    try:
+        qte = int(input("Combien de paires voulez-vous acheter ? "))
+        if qte <= 0 or qte > quantite_stock:
+            print("Quantité invalide.")
+            return
+    except ValueError:
+        print("Entrée invalide.")
+        return
+
+    ht = calcul_ht(prix_unitaire, qte)
+    ttc = calcul_ttc(ht, tva)
+
+    if compte_client >= ttc:
+        compte_client -= ttc
+        compte_boutique += ttc
+        quantite_stock -= qte
+        afficher_facture(nom_boutique, produit, qte, ht, ttc)
+    else:
+        print("Solde insuffisant.")
+
+    if quantite_stock < 10:
+        print("!! Stock bientôt épuisé !!")
+    elif 10 < quantite_stock < 15 and prix_unitaire > 5:
+        print("!! Attention produit presque en rupture !!")
+
+    # Types des variables
+    print("Types des variables :")
+    print("nom_boutique :", type(nom_boutique))
+    print("produit :", type(produit))
+    print("prix_unitaire :", type(prix_unitaire))
+    print("quantite_stock :", type(quantite_stock))
+    print("tva :", type(tva))
+    print("compte_client :", type(compte_client))
+    print("compte_boutique :", type(compte_boutique))
+
+if __name__ == "__main__":
+    main()
