@@ -5,3 +5,6 @@ quantite_stock : int = 20
 tva : float = 0.20
 compte_client  = float(100)
 compte_boutique : float = 0
+print(f"La boutique {nom_boutique} vend des {produit} au prix de {prix_unitaire}€ "
+      f"l'unité (TVA : {tva*100}%). Il reste {quantite_stock} articles en stock. "
+      f"Le compte du client est de {compte_client}€ et celui de la boutique est de {compte_boutique}€.")
